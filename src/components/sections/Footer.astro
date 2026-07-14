@@ -1,0 +1,184 @@
+---
+import type { FooterContent } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  footer: FooterContent;
+  compact?: boolean;
+}
+
+const { footer, compact = false } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+{
+  compact ? (
+    <footer class="strip">
+      <img src={withBase(footer.logo)} alt={footer.logoAlt} />
+      <a href={withBase("/")} class="back-link">
+        ← Back to home
+      </a>
+    </footer>
+  ) : (
+    <footer class="full">
+      <div class="grid">
+        <div class="brand">
+          <img src={withBase(footer.logo)} alt={footer.logoAlt} />
+          <p>{footer.tagline}</p>
+        </div>
+        {footer.groups.map((group) => (
+          <div>
+            <div class="col-title">{group.title}</div>
+            <div class="links">
+              {group.links.map((link) => (
+                <a href={withBase(link.href)}>{link.label}</a>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div>
+          <div class="col-title">Hours</div>
+          <div class="hours">
+            {footer.hours.map((line) => (
+              <span class="hours-line">{line}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>© {year} Dolci Vita. All rights reserved.</span>
+        <span class="faint">{footer.copyrightNote}</span>
+      </div>
+    </footer>
+  )
+}
+
+<style>
+  .full {
+    background: #2a271e;
+    color: #d8cfb4;
+  }
+
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(56px, 7vw, 90px) clamp(20px, 5vw, 48px) 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 48px;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+    max-width: 340px;
+  }
+
+  .brand img {
+    height: 56px;
+    width: auto;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .brand p {
+    margin: 0;
+    color: #a9a290;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .col-title {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .links a {
+    text-decoration: none;
+    color: #d8cfb4;
+    font-size: 15px;
+    transition: color 0.25s var(--ease);
+  }
+
+  .links a:hover {
+    color: #fff;
+  }
+
+  .links a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .hours {
+    color: #a9a290;
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  .hours-line {
+    display: block;
+  }
+
+  .bottom {
+    border-top: 1px solid rgba(216, 207, 180, 0.15);
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px clamp(20px, 5vw, 48px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    color: #8a8474;
+    font-size: 13px;
+  }
+
+  .faint {
+    opacity: 0.8;
+  }
+
+  .strip {
+    background: #2a271e;
+    color: #a9a290;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 44px clamp(20px, 5vw, 48px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .strip img {
+    height: 40px;
+    width: auto;
+  }
+
+  .back-link {
+    text-decoration: none;
+    color: #f1ebd5;
+    font-weight: 600;
+    font-size: 15px;
+    border-bottom: 1.5px solid rgba(241, 235, 213, 0.3);
+    padding-bottom: 3px;
+  }
+
+  .back-link:hover {
+    border-color: var(--gold);
+    color: #f1ebd5;
+  }
+
+  .back-link:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+</style>

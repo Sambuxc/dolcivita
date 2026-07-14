@@ -1,0 +1,62 @@
+---
+interface Props {
+  content: string;
+  tone?: "dark" | "light";
+  size?: number;
+  class?: string;
+}
+
+const {
+  content,
+  tone = "dark",
+  size = 46,
+  class: className = "",
+} = Astro.props;
+---
+
+<span
+  class:list={["icon-circle", `tone-${tone}`, className]}
+  style={`--size:${size}px`}
+  aria-hidden="true"
+  set:html={content}
+/>
+
+<style>
+  .icon-circle {
+    flex: none;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cormorant", serif;
+    font-weight: 700;
+    font-size: calc(var(--size) * 0.41);
+  }
+
+  .icon-circle :global(svg) {
+    width: 55%;
+    height: 55%;
+  }
+
+  .tone-dark {
+    background: var(--ink);
+    color: var(--gold-pale);
+  }
+
+  .tone-dark :global(svg) {
+    fill: var(--gold-pale);
+  }
+
+  .tone-light {
+    background: #fff;
+    color: var(--gold);
+    font-family: inherit;
+    font-weight: 400;
+  }
+
+  .tone-light :global(svg) {
+    fill: var(--gold);
+  }
+</style>

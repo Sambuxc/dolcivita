@@ -1,0 +1,136 @@
+---
+import type { CTAButton } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  label: CTAButton["label"];
+  href: CTAButton["href"];
+  variant?: CTAButton["variant"];
+  size?: "sm" | "md";
+  arrow?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  href,
+  variant = "primary",
+  size = "md",
+  arrow = false,
+  class: className = "",
+} = Astro.props;
+---
+
+<a
+  href={withBase(href)}
+  class:list={["btn", `btn-${variant}`, `btn-${size}`, className]}
+>
+  {label}
+  {
+    arrow && (
+      <span class="arrow" aria-hidden="true">
+        →
+      </span>
+    )
+  }
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      transform 0.16s var(--ease),
+      box-shadow 0.3s var(--ease),
+      background 0.3s var(--ease),
+      color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .btn-sm {
+    padding: 11px 22px;
+    font-size: 14px;
+  }
+
+  .btn-md {
+    padding: 16px 32px;
+    font-size: 15.5px;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ink);
+    box-shadow: 0 14px 34px -12px rgba(186, 155, 47, 0.8);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px -12px rgba(186, 155, 47, 0.9);
+    color: var(--ink);
+  }
+
+  .btn-outline {
+    border: 1.5px solid rgba(253, 251, 244, 0.55);
+    color: #fdfbf4;
+  }
+
+  .btn-outline:hover {
+    background: #fdfbf4;
+    color: var(--ink);
+  }
+
+  .btn-outline-dark {
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+  }
+
+  .btn-outline-dark:hover {
+    background: var(--ink);
+    color: #f1ebd5;
+  }
+
+  .btn-dark {
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+  }
+
+  .btn-dark:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .arrow {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: rgba(42, 39, 30, 0.14);
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .btn-outline .arrow,
+  .btn-outline-dark .arrow,
+  .btn-dark .arrow {
+    background: rgba(42, 39, 30, 0.08);
+  }
+
+  .btn:hover .arrow {
+    transform: translateX(3px);
+  }
+</style>

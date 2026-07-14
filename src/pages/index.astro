@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/sections/Hero.astro';
+import WhatWeOffer from '../components/sections/WhatWeOffer.astro';
+import Featured from '../components/sections/Featured.astro';
+import Story from '../components/sections/Story.astro';
+import Why from '../components/sections/Why.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import Location from '../components/sections/Location.astro';
+import Footer from '../components/sections/Footer.astro';
+import {
+  getSiteMeta,
+  getNavConfig,
+  getHeroContent,
+  getOfferContent,
+  getFeaturedContent,
+  getStoryContent,
+  getWhyContent,
+  getGalleryContent,
+  getLocationContent,
+  getFooterContent,
+} from '../services/api';
+
+const [meta, nav, hero, offer, featured, story, why, gallery, location, footer] = await Promise.all([
+  getSiteMeta(),
+  getNavConfig(),
+  getHeroContent(),
+  getOfferContent(),
+  getFeaturedContent(),
+  getStoryContent(),
+  getWhyContent(),
+  getGalleryContent(),
+  getLocationContent(),
+  getFooterContent(),
+]);
+---
+<Layout title={meta.title} description={meta.description}>
+  <Hero meta={meta} nav={nav} hero={hero} />
+  <main id="main" class="page">
+    <WhatWeOffer offer={offer} />
+    <Featured featured={featured} />
+    <Story story={story} />
+    <Why why={why} />
+    <Gallery gallery={gallery} />
+    <Location location={location} />
+    <Footer footer={footer} />
+  </main>
+</Layout>
+
+<style>
+  .page {
+    background: var(--cream);
+    display: block;
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+interface Props {
+  text: string;
+  variant?: 'badge' | 'diet' | 'category';
+  class?: string;
+}
+
+const { text, variant = 'badge', class: className = '' } = Astro.props;
+---
+<span class:list={['pill', `pill-${variant}`, className]}>{text}</span>
+
+<style>
+  .pill {
+    display: inline-block;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .pill-badge {
+    background: rgba(47, 77, 188, 0.12);
+    backdrop-filter: blur(6px);
+    color: #2f4dbc;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+  }
+
+  .pill-diet {
+    font-size: 10.5px;
+    color: #5f7d1a;
+    border: 1px solid rgba(148, 188, 47, 0.5);
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .pill-category {
+    font-family: ui-monospace, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    color: #8f8a79;
+    background: #f4efe2;
+    padding: 4px 9px;
+    border-radius: 6px;
+    font-weight: 400;
+  }
+</style>

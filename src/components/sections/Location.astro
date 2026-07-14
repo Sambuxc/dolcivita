@@ -1,0 +1,168 @@
+---
+import Eyebrow from "../ui/Eyebrow.astro";
+import IconCircle from "../ui/IconCircle.astro";
+import Button from "../ui/Button.astro";
+import type { LocationContent } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  location: LocationContent;
+}
+
+const { location } = Astro.props;
+---
+
+<section id="location" class="location">
+  <div class="grid">
+    <div data-reveal>
+      <Eyebrow text={location.eyebrow} />
+      <h2>{location.title}</h2>
+      <div class="details">
+        {
+          location.details.map((d) => (
+            <div class="row">
+              <IconCircle content={d.icon} tone="light" size={40} />
+              <div>
+                <div class="label">{d.label}</div>
+                <div class="value">
+                  {d.lines.map((line) => (
+                    <span class="value-line">{line}</span>
+                  ))}
+                  <span class="faint">— {d.note}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="actions">
+        {
+          location.actions.map((a) => (
+            <Button
+              label={a.label}
+              href={withBase(a.href)}
+              variant={a.variant}
+              size="md"
+            />
+          ))
+        }
+      </div>
+    </div>
+    <div class="map" data-reveal>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2379.2371768844673!2d-2.236944823110354!3d53.3926970723027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb295752b8e4d%3A0x2e410df64125c646!2s185%20Gatley%20Rd%2C%20Manchester%2C%20Gatley%2C%20Cheadle%20SK8%204BB!5e0!3m2!1sen!2suk!4v1784044393623!5m2!1sen!2suk"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <!-- <div class="pin" aria-hidden="true"></div> -->
+      <!-- <span class="map-note">{location.mapNote}</span> -->
+    </div>
+  </div>
+</section>
+
+<style>
+  .location {
+    background: #f1ebd5;
+  }
+
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(72px, 10vw, 140px) clamp(20px, 5vw, 48px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(40px, 5vw, 72px);
+    align-items: center;
+  }
+
+  h2 {
+    font-family: "Cormorant", serif;
+    font-weight: 600;
+    font-size: clamp(34px, 5vw, 58px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 18px 0 30px;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 34px;
+  }
+
+  .row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+
+  .value {
+    color: var(--body-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .value-line {
+    display: block;
+  }
+
+  .faint {
+    opacity: 0.6;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .map {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 22px;
+    overflow: hidden;
+    background: repeating-linear-gradient(
+      135deg,
+      #e3d7ac 0 14px,
+      #e9debb 14px 28px
+    );
+    box-shadow: 0 30px 60px -28px rgba(42, 39, 30, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pin {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--gold);
+    box-shadow:
+      0 0 0 8px rgba(186, 155, 47, 0.25),
+      0 0 0 16px rgba(186, 155, 47, 0.12);
+  }
+
+  .map-note {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--gold-deep);
+    background: rgba(255, 255, 255, 0.7);
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+</style>

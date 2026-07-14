@@ -1,0 +1,33 @@
+---
+interface Props {
+  text: string;
+  tone?: 'muted' | 'bright';
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { text, tone = 'muted', align = 'left', class: className = '' } = Astro.props;
+---
+<span class:list={['eyebrow', `tone-${tone}`, `align-${align}`, className]}>{text}</span>
+
+<style>
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .tone-muted {
+    color: var(--gold-deep);
+  }
+
+  .tone-bright {
+    color: var(--gold);
+  }
+
+  .align-center {
+    text-align: center;
+  }
+</style>

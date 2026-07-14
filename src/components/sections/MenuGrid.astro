@@ -1,0 +1,164 @@
+---
+import Pill from "../ui/Pill.astro";
+import type { MenuItem } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  items: MenuItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<main class="main">
+  <div class="grid" data-grid>
+    {
+      items.map((item) => (
+        <article data-item data-cat={item.cat} class="card">
+          <div class="card-media">
+            {item.img ? (
+              <img src={withBase(item.img)} alt={item.alt} loading="lazy" />
+            ) : (
+              <div class="no-img">
+                <span>photo coming soon</span>
+              </div>
+            )}
+            {item.badge && (
+              <Pill text={item.badge} variant="badge" class="badge-pos" />
+            )}
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>{item.name}</h3>
+              <span class="price">{item.price}</span>
+            </div>
+            <p>{item.desc}</p>
+            <div class="tags">
+              <Pill text={item.cat} variant="category" />
+              {item.diet.map((d) => (
+                <Pill text={d} variant="diet" />
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</main>
+
+<style>
+  .main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(28px, 4vw, 48px) clamp(20px, 5vw, 48px)
+      clamp(72px, 10vw, 130px);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(16px, 2vw, 26px);
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e6dfce;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(42, 39, 30, 0.04);
+    transition:
+      transform 0.35s var(--ease),
+      box-shadow 0.35s var(--ease);
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 46px -18px rgba(42, 39, 30, 0.26);
+  }
+
+  .card-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f0ebdd;
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .card:hover .card-media img {
+    transform: scale(1.05);
+  }
+
+  .no-img {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      135deg,
+      #efe7d2 0 12px,
+      #f3ecda 12px 24px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .no-img span {
+    font-family: ui-monospace, monospace;
+    font-size: 11px;
+    color: #a99b6e;
+    letter-spacing: 0.02em;
+  }
+
+  .card-media :global(.badge-pos) {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+  }
+
+  .card-body {
+    padding: 20px 22px 22px;
+  }
+
+  .card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 7px;
+  }
+
+  .card-title-row h3 {
+    font-family: "Cormorant", serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .price {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--gold-deep);
+    white-space: nowrap;
+  }
+
+  .card-body p {
+    margin: 0 0 14px;
+    color: var(--body-muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    align-items: center;
+  }
+</style>

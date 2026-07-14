@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MenuNav from "../components/sections/MenuNav.astro";
+import MenuHeader from "../components/sections/MenuHeader.astro";
+import MenuFilter from "../components/sections/MenuFilter.astro";
+import MenuGrid from "../components/sections/MenuGrid.astro";
+import Footer from "../components/sections/Footer.astro";
+import {
+  getSiteMeta,
+  getNavConfig,
+  getMenuPageContent,
+  getFooterContent,
+} from "../services/api";
+import { withBase } from "../utils/paths";
+
+const [meta, nav, menu, footer] = await Promise.all([
+  getSiteMeta(),
+  getNavConfig(),
+  getMenuPageContent(),
+  getFooterContent(),
+]);
+---
+
+<Layout
+  title={`${menu.titleLead} ${menu.titleEmphasis} — Dolci Vita`}
+  description={menu.description}
+>
+  <div class="menu-page">
+    <MenuNav
+      logo={meta.logo}
+      logoAlt={meta.logoAlt}
+      backHref="/"
+      backLabel="Back home"
+      cta={nav.cta}
+    />
+    <main id="main">
+      <MenuHeader menu={menu} />
+      <MenuFilter categories={menu.categories} />
+      <MenuGrid items={menu.items} />
+    </main>
+    <Footer footer={footer} compact />
+  </div>
+</Layout>
+
+<script>
+  import { initMenuFilter } from "../utils/menuFilter";
+  document
+    .querySelectorAll<HTMLElement>(".menu-page")
+    .forEach((root) => initMenuFilter(root));
+</script>
+
+<style>
+  .menu-page {
+    background: var(--cream);
+    min-height: 100vh;
+  }
+</style>

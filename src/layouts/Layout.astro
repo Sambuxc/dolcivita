@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+import { getSiteMeta } from "../services/api";
+import { withBase } from "../utils/paths";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const meta = await getSiteMeta();
+const { title = meta.title, description = meta.description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a href={withBase("#main")} class="skip-link">Skip to content</a>
+    <slot />
+  </body>
+</html>
+
+<script>
+  import { initScrollReveal } from "../utils/scrollReveal";
+  initScrollReveal();
+</script>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    background: #fdfbf4;
+    color: #2a271e;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: top 0.2s ease;
+  }
+
+  .skip-link:focus {
+    top: 12px;
+  }
+</style>

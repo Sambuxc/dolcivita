@@ -1,0 +1,148 @@
+---
+import Eyebrow from "../ui/Eyebrow.astro";
+import IconCircle from "../ui/IconCircle.astro";
+import type { WhyContent } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  why: WhyContent;
+}
+
+const { why } = Astro.props;
+---
+
+<section class="why">
+  <div class="head" data-reveal>
+    <Eyebrow text={why.eyebrow} align="center" />
+    <h2>{why.titleLead}<br />{why.titleEmphasis}</h2>
+    <div class="rule"></div>
+    <p>{why.description}</p>
+  </div>
+
+  <div class="flank">
+    <div class="col">
+      {
+        why.left.map((f) => (
+          <div data-reveal class="item item-left">
+            <IconCircle content={f.no} tone="dark" />
+            <div>
+              <h3>{f.title}</h3>
+              <p>{f.desc}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="media" data-reveal>
+      <img src={withBase(why.image)} alt={why.imageAlt} loading="lazy" />
+    </div>
+    <div class="col">
+      {
+        why.right.map((f) => (
+          <div data-reveal class="item">
+            <IconCircle content={f.no} tone="dark" />
+            <div>
+              <h3>{f.title}</h3>
+              <p>{f.desc}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .why {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(72px, 10vw, 140px) clamp(20px, 5vw, 48px);
+  }
+
+  .head {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto clamp(44px, 6vw, 76px);
+  }
+
+  h2 {
+    font-family: "Cormorant", serif;
+    font-weight: 600;
+    font-size: clamp(34px, 5vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 16px 0 20px;
+  }
+
+  .rule {
+    width: 64px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+  }
+
+  .head p {
+    margin: 0;
+    color: var(--body-muted);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .flank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(20px, 3vw, 44px);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .col {
+    flex: 1 1 200px;
+    min-width: 190px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 3.5vw, 46px);
+  }
+
+  .item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .item-left {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .item h3 {
+    margin: 0 0 7px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .item p {
+    margin: 0;
+    color: var(--body-muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .media {
+    flex: 0 0 auto;
+    width: min(340px, 80vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 26px 32px rgba(42, 39, 30, 0.24));
+    animation: dvFloat 6s ease-in-out infinite;
+  }
+</style>

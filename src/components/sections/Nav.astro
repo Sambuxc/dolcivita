@@ -1,0 +1,241 @@
+---
+import Button from "../ui/Button.astro";
+import type { NavLink, CTAButton } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  logo: string;
+  logoAlt: string;
+  links: NavLink[];
+  cta: CTAButton;
+  variant?: "overlay" | "solid";
+}
+
+const { logo, logoAlt, links, cta, variant = "overlay" } = Astro.props;
+const panelId = "primary-nav-panel";
+---
+
+<div class:list={["nav-root", `variant-${variant}`]} data-nav>
+  <nav class="bar" aria-label="Primary">
+    <a href={withBase("/")} class="logo-link">
+      <img src={withBase(logo)} alt={logoAlt} class="logo" />
+    </a>
+
+    <div class="links">
+      {links.map((link) => <a href={withBase(link.href)}>{link.label}</a>)}
+      <Button
+        label={cta.label}
+        href={withBase(cta.href)}
+        variant={cta.variant}
+        size="sm"
+      />
+    </div>
+
+    <button
+      type="button"
+      class="hamburger"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls={panelId}
+      aria-label="Open menu"
+    >
+      <span class="bar-line"></span>
+      <span class="bar-line"></span>
+      <span class="bar-line"></span>
+    </button>
+  </nav>
+
+  <div id={panelId} class="panel" data-nav-panel inert>
+    <div class="panel-links">
+      {links.map((link) => <a href={withBase(link.href)}>{link.label}</a>)}
+    </div>
+    <Button
+      label={cta.label}
+      href={withBase(cta.href)}
+      variant="primary"
+      size="md"
+      class="panel-cta"
+    />
+  </div>
+</div>
+
+<script>
+  import { initNavToggle } from "../../utils/navToggle";
+  document
+    .querySelectorAll<HTMLElement>("[data-nav]")
+    .forEach((root) => initNavToggle(root));
+</script>
+
+<style>
+  .nav-root {
+    position: relative;
+    z-index: 20;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 26px clamp(24px, 4vw, 60px);
+  }
+
+  .variant-solid .bar {
+    padding: 14px clamp(20px, 5vw, 48px);
+  }
+
+  .logo-link {
+    display: inline-flex;
+  }
+
+  .logo {
+    height: 40px;
+    width: auto;
+  }
+
+  .variant-solid .logo {
+    height: 34px;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .links a {
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 500;
+    opacity: 0.9;
+    transition: opacity 0.25s var(--ease);
+  }
+
+  .links a:hover {
+    opacity: 1;
+  }
+
+  .links a:focus-visible,
+  .logo-link:focus-visible,
+  .hamburger:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .variant-overlay .links a {
+    color: #f1ebd5;
+  }
+
+  .variant-solid .links a {
+    color: var(--ink);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+  }
+
+  .variant-solid .hamburger {
+    background: rgba(42, 39, 30, 0.06);
+  }
+
+  .bar-line {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: #f1ebd5;
+    transition:
+      transform 0.25s var(--ease),
+      opacity 0.2s var(--ease);
+  }
+
+  .variant-solid .bar-line {
+    background: var(--ink);
+  }
+
+  .hamburger[aria-expanded="true"] .bar-line:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger[aria-expanded="true"] .bar-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger[aria-expanded="true"] .bar-line:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 22px;
+    padding: 24px clamp(24px, 6vw, 48px) 32px;
+    background: #211f18;
+    border-bottom: 1px solid rgba(241, 235, 213, 0.12);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.25s var(--ease),
+      transform 0.25s var(--ease);
+  }
+
+  .panel.is-open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel {
+      transition: none;
+    }
+  }
+
+  .panel-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .panel-links a {
+    text-decoration: none;
+    color: #f1ebd5;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 12px 4px;
+    border-bottom: 1px solid rgba(241, 235, 213, 0.1);
+  }
+
+  .panel-links a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .panel-cta {
+    align-self: flex-start;
+  }
+
+  @media (max-width: 860px) {
+    .links {
+      display: none;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+  }
+</style>

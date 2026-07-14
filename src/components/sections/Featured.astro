@@ -1,0 +1,192 @@
+---
+import Eyebrow from "../ui/Eyebrow.astro";
+import Pill from "../ui/Pill.astro";
+import Button from "../ui/Button.astro";
+import type { FeaturedContent } from "../../services/types";
+import { withBase } from "../../utils/paths";
+
+interface Props {
+  featured: FeaturedContent;
+}
+
+const { featured } = Astro.props;
+---
+
+<section id="menu" class="featured">
+  <div class="head" data-reveal>
+    <div class="head-copy">
+      <Eyebrow text={featured.eyebrow} />
+      <h2>{featured.titleLead}<br /><em>{featured.titleEmphasis}</em></h2>
+    </div>
+    <p class="intro">{featured.intro}</p>
+  </div>
+
+  <div class="grid">
+    {
+      featured.items.map((item) => (
+        <a data-reveal data-card href={withBase("/menu")} class="card">
+          <div class="card-media">
+            <img src={withBase(item.img)} alt={item.alt} loading="lazy" />
+            {item.badge && (
+              <Pill text={item.badge} variant="badge" class="badge-pos" />
+            )}
+          </div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <h3>{item.name}</h3>
+              <span class="price">{item.price}</span>
+            </div>
+            <p>{item.desc}</p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="more" data-reveal>
+    <Button
+      label={featured.moreCta.label}
+      href={withBase(featured.moreCta.href)}
+      variant="dark"
+      arrow
+    />
+  </div>
+</section>
+
+<style>
+  .featured {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(72px, 10vw, 140px) clamp(20px, 5vw, 48px);
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: clamp(36px, 5vw, 64px);
+  }
+
+  .head-copy {
+    max-width: 640px;
+  }
+
+  h2 {
+    font-family: "Cormorant", serif;
+    font-weight: 600;
+    font-size: clamp(38px, 6vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    margin: 18px 0 0;
+  }
+
+  h2 em {
+    font-style: italic;
+    color: var(--gold-deep);
+  }
+
+  .intro {
+    max-width: 340px;
+    margin: 0;
+    color: var(--body-muted);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: clamp(18px, 2.2vw, 30px);
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border: 1px solid #e6dfce;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(42, 39, 30, 0.04);
+    transition:
+      transform 0.35s var(--ease),
+      box-shadow 0.35s var(--ease);
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 50px -18px rgba(42, 39, 30, 0.28);
+  }
+
+  .card:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .card-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f0ebdd;
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .card:hover .card-media img {
+    transform: scale(1.05);
+  }
+
+  .card-media :global(.badge-pos) {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+  }
+
+  .card-body {
+    padding: 22px 24px 24px;
+  }
+
+  .card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .card-title-row h3 {
+    font-family: "Cormorant", serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .price {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--gold-deep);
+    white-space: nowrap;
+  }
+
+  .card-body p {
+    margin: 0;
+    color: var(--body-muted);
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .more {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+</style>
