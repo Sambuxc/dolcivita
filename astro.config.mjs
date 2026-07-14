@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://dolcivita.bp7968h.github.io',
-  base: '/dolcivita/',
+  site: 'https://dolcivita.bhuwanpandit.me',
 });
