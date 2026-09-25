@@ -1,0 +1,152 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+---
+
+<ContentPageLayout title="Cookie Settings" description="Review the website’s cookie categories and your available choices." eyebrow="Your choices">
+  <form class="settings" data-cookie-settings>
+    <fieldset>
+      <legend>Essential</legend>
+      <div class="setting-row">
+        <div>
+          <h2>Strictly necessary</h2>
+          <p>Required for core website behaviour and security. These cannot be switched off.</p>
+        </div>
+        <span class="status">Always on</span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Optional categories</legend>
+      <label class="setting-row">
+        <span>
+          <strong>Preferences</strong>
+          <small>Allows the website to remember optional choices.</small>
+        </span>
+        <input type="checkbox" name="preferences" />
+      </label>
+      <label class="setting-row">
+        <span>
+          <strong>Analytics</strong>
+          <small>Would allow approved measurement tools to help improve the website.</small>
+        </span>
+        <input type="checkbox" name="analytics" />
+      </label>
+    </fieldset>
+
+    <button type="submit">Save cookie choices</button>
+    <p class="save-status" data-save-status aria-live="polite"></p>
+  </form>
+
+  <p class="placeholder-note">No optional analytics or marketing tools are currently configured. These controls store your preference locally so the consent layer is ready to connect when the final service inventory is approved.</p>
+</ContentPageLayout>
+
+<script>
+  const storageKey = "dolci-vita-cookie-preferences";
+
+  document.querySelectorAll<HTMLFormElement>("[data-cookie-settings]").forEach((form) => {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      try {
+        const choices = JSON.parse(saved) as Record<string, boolean>;
+        form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((input) => {
+          input.checked = choices[input.name] === true;
+        });
+      } catch {
+        localStorage.removeItem(storageKey);
+      }
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const choices = Object.fromEntries(
+        Array.from(form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')).map((input) => [input.name, input.checked]),
+      );
+      localStorage.setItem(storageKey, JSON.stringify(choices));
+      const status = form.querySelector<HTMLElement>("[data-save-status]");
+      if (status) status.textContent = "Your cookie choices have been saved on this device.";
+    });
+  });
+</script>
+
+<style>
+  .settings {
+    display: grid;
+    gap: 24px;
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ded6c2;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .setting-row {
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: #fff;
+  }
+
+  label.setting-row + label.setting-row {
+    border-top: 1px solid #ded6c2;
+  }
+
+  .setting-row h2,
+  .setting-row strong {
+    display: block;
+    margin: 0 0 6px;
+    font-family: inherit;
+    font-size: 17px;
+  }
+
+  .setting-row p,
+  .setting-row small {
+    display: block;
+    margin: 0;
+    color: var(--body-muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .status {
+    color: var(--gold-deep);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  input {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--gold-deep);
+  }
+
+  button {
+    width: fit-content;
+    padding: 14px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .save-status {
+    min-height: 1.5em;
+    margin: -10px 0 0;
+  }
+</style>

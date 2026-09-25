@@ -1,0 +1,280 @@
+---
+import type { AppBannerContent } from "../../services/types";
+
+interface Props {
+  content: AppBannerContent;
+}
+
+const { content } = Astro.props;
+const { reviews, android, ios } = content;
+const hasVerifiedRating = reviews.rating !== null;
+const starFill = hasVerifiedRating
+  ? `${Math.min(100, Math.max(0, (reviews.rating! / 5) * 100))}%`
+  : "0%";
+const ratingLabel = hasVerifiedRating
+  ? `${reviews.rating!.toFixed(1)} out of 5 on Google${reviews.reviewCount !== null ? ` from ${reviews.reviewCount} reviews` : ""}`
+  : "View our rating and reviews on Google";
+---
+
+<aside class="app-banner" aria-label="Reviews and app downloads" data-app-banner>
+  <a
+    class="reviews"
+    href={reviews.href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={ratingLabel}
+  >
+    <span class="google-mark" aria-hidden="true">G</span>
+    <span class="review-copy">
+      {
+        hasVerifiedRating && (
+          <span class="stars" aria-hidden="true">
+            <span class="stars-empty">☆☆☆☆☆</span>
+            <span class="stars-filled" style={`--star-fill:${starFill}`}>
+              ★★★★★
+            </span>
+          </span>
+        )
+      }
+      <span class="review-label">
+        {hasVerifiedRating ? `${reviews.rating!.toFixed(1)} ${reviews.label}` : `View ${reviews.label}`}
+        {reviews.reviewCount !== null && <span> ({reviews.reviewCount})</span>}
+      </span>
+    </span>
+  </a>
+
+  <div class="downloads" aria-label="Download the Dolci Vita app">
+    <span class="download-prompt">Get the app</span>
+    <a
+      class="store-link"
+      href={android.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-app-platform="android"
+      aria-label="Download Dolci Vita on Google Play"
+    >
+      <span class="store-icon" aria-hidden="true">▶</span>
+      <span><small>Get it on</small>{android.label}</span>
+    </a>
+    <a
+      class="store-link"
+      href={ios.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-app-platform="ios"
+      aria-label="Download Dolci Vita on the App Store"
+    >
+      <span class="store-icon apple" aria-hidden="true">●</span>
+      <span><small>Download on the</small>{ios.label}</span>
+    </a>
+  </div>
+</aside>
+
+<script>
+  import { initAppBanner } from "../../utils/appBanner";
+
+  document
+    .querySelectorAll<HTMLElement>("[data-app-banner]")
+    .forEach((root) => initAppBanner(root));
+</script>
+
+<style>
+  .app-banner {
+    position: relative;
+    z-index: 30;
+    min-height: 48px;
+    padding: 6px clamp(16px, 4vw, 60px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #211f18;
+    color: #fdfbf4;
+    border-bottom: 1px solid rgba(227, 215, 172, 0.2);
+  }
+
+  .reviews {
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #fdfbf4;
+    text-decoration: none;
+  }
+
+  .reviews:hover {
+    color: #fff;
+  }
+
+  .google-mark {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #fff;
+    color: #4285f4;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .review-copy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .stars {
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .stars-empty {
+    color: rgba(244, 197, 66, 0.45);
+  }
+
+  .stars-filled {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--star-fill);
+    overflow: hidden;
+    color: #f4c542;
+    white-space: nowrap;
+  }
+
+  .review-label {
+    overflow: hidden;
+    color: #e7dfc9;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .downloads {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+  }
+
+  .download-prompt {
+    margin-right: 3px;
+    color: #d8cfb4;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .store-link {
+    min-height: 34px;
+    padding: 4px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid rgba(253, 251, 244, 0.4);
+    border-radius: 7px;
+    background: #090909;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.05;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .store-link small {
+    display: block;
+    margin-bottom: 1px;
+    font-size: 7px;
+    font-weight: 500;
+  }
+
+  .store-link:hover,
+  .store-link[data-preferred="true"] {
+    border-color: var(--gold);
+    color: #fff;
+  }
+
+  .store-link:hover {
+    transform: translateY(-1px);
+  }
+
+  .store-link:focus-visible,
+  .reviews:focus-visible {
+    outline: 2px solid var(--gold-pale);
+    outline-offset: 2px;
+  }
+
+  .store-icon {
+    color: #7bd88f;
+    font-size: 14px;
+  }
+
+  .store-icon.apple {
+    color: #fff;
+    font-size: 12px;
+  }
+
+  .app-banner[data-platform="android"] [data-app-platform="android"],
+  .app-banner[data-platform="ios"] [data-app-platform="ios"] {
+    order: -1;
+  }
+
+  @media (max-width: 700px) {
+    .app-banner {
+      min-height: 44px;
+      padding-block: 5px;
+      gap: 10px;
+    }
+
+    .review-copy {
+      display: block;
+    }
+
+    .stars,
+    .review-label {
+      display: block;
+    }
+
+    .review-label {
+      max-width: 110px;
+      margin-top: 2px;
+      font-size: 10px;
+    }
+
+    .download-prompt {
+      display: none;
+    }
+
+    .store-link {
+      min-height: 34px;
+      padding-inline: 8px;
+      justify-content: center;
+      font-size: 9px;
+    }
+
+    .store-link small {
+      display: none;
+    }
+
+    .store-icon {
+      font-size: 11px;
+    }
+  }
+
+  @media (max-width: 370px) {
+    .google-mark {
+      display: none;
+    }
+  }
+</style>

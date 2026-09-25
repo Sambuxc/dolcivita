@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
+import AppBanner from '../components/sections/AppBanner.astro';
 import WhatWeOffer from '../components/sections/WhatWeOffer.astro';
 import Featured from '../components/sections/Featured.astro';
 import Story from '../components/sections/Story.astro';
@@ -11,6 +12,7 @@ import Footer from '../components/sections/Footer.astro';
 import {
   getSiteMeta,
   getNavConfig,
+  getAppBannerContent,
   getHeroContent,
   getOfferContent,
   getFeaturedContent,
@@ -21,9 +23,10 @@ import {
   getFooterContent,
 } from '../services/api';
 
-const [meta, nav, hero, offer, featured, story, why, gallery, location, footer] = await Promise.all([
+const [meta, nav, appBanner, hero, offer, featured, story, why, gallery, location, footer] = await Promise.all([
   getSiteMeta(),
   getNavConfig(),
+  getAppBannerContent(),
   getHeroContent(),
   getOfferContent(),
   getFeaturedContent(),
@@ -35,6 +38,7 @@ const [meta, nav, hero, offer, featured, story, why, gallery, location, footer] 
 ]);
 ---
 <Layout title={meta.title} description={meta.description}>
+  <AppBanner content={appBanner} />
   <Hero meta={meta} nav={nav} hero={hero} />
   <main id="main" class="page">
     <WhatWeOffer offer={offer} />

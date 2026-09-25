@@ -1,0 +1,114 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+import { getAppBannerContent } from "../services/api";
+
+const app = await getAppBannerContent();
+---
+
+<ContentPageLayout
+  title="Download the Dolci Vita app"
+  description="Keep the sweet life close by and get to your next order faster."
+  eyebrow="Order · Earn · Repeat"
+>
+  <section class="content-section app-grid" aria-label="App download options">
+    <article class="app-card">
+      <div class="phone-placeholder" aria-hidden="true">Android screenshots coming soon</div>
+      <div>
+        <p class="platform">Android</p>
+        <h2>Get it on Google Play</h2>
+        <p>Download the Dolci Vita app for Android using our official store listing.</p>
+        <a class="store-button" href={app.android.href} target="_blank" rel="noopener noreferrer">
+          Download for Android <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="app-card reverse">
+      <div class="phone-placeholder" aria-hidden="true">iPhone screenshots coming soon</div>
+      <div>
+        <p class="platform">iPhone & iPad</p>
+        <h2>Download on the App Store</h2>
+        <p>Download the Dolci Vita app for iOS and iPadOS using our official store listing.</p>
+        <a class="store-button" href={app.ios.href} target="_blank" rel="noopener noreferrer">
+          Download for iOS <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
+  </section>
+  <p class="placeholder-note">Final app screenshots will be added when supplied by Dolci Vita.</p>
+</ContentPageLayout>
+
+<style>
+  .app-grid {
+    display: grid;
+    gap: 28px;
+  }
+
+  .app-card {
+    padding: clamp(22px, 4vw, 38px);
+    display: grid;
+    grid-template-columns: minmax(150px, 0.7fr) minmax(240px, 1.3fr);
+    align-items: center;
+    gap: clamp(24px, 5vw, 56px);
+    border: 1px solid #e6dfce;
+    border-radius: 22px;
+    background: #fff;
+  }
+
+  .app-card.reverse .phone-placeholder {
+    order: 2;
+  }
+
+  .phone-placeholder {
+    min-height: 280px;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    border: 8px solid var(--ink);
+    border-radius: 30px;
+    background: var(--parchment);
+    color: var(--body-faint);
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .platform {
+    margin: 0 0 10px;
+    color: var(--gold-deep);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .app-card h2 {
+    margin-bottom: 12px;
+  }
+
+  .store-button {
+    margin-top: 8px;
+    padding: 13px 20px;
+    display: inline-flex;
+    gap: 12px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media (max-width: 620px) {
+    .app-card {
+      grid-template-columns: 1fr;
+    }
+
+    .app-card.reverse .phone-placeholder {
+      order: initial;
+    }
+
+    .phone-placeholder {
+      min-height: 180px;
+    }
+  }
+</style>

@@ -11,7 +11,6 @@ import {
   getMenuPageContent,
   getFooterContent,
 } from "../services/api";
-import { withBase } from "../utils/paths";
 
 const [meta, nav, menu, footer] = await Promise.all([
   getSiteMeta(),
@@ -38,7 +37,7 @@ const [meta, nav, menu, footer] = await Promise.all([
       <MenuFilter categories={menu.categories} />
       <MenuGrid items={menu.items} />
     </main>
-    <Footer footer={footer} compact />
+    <Footer footer={footer} />
   </div>
 </Layout>
 

@@ -1,0 +1,32 @@
+---
+import { withBase } from "../../utils/paths";
+
+interface Section {
+  heading: string;
+  body: string[];
+}
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+<p class="placeholder-note">
+  Placeholder policy content — this page must be replaced with client-approved wording before launch. It is not legal advice.
+</p>
+
+{
+  sections.map((section) => (
+    <section class="content-section">
+      <h2>{section.heading}</h2>
+      {section.body.map((paragraph) => <p>{paragraph}</p>)}
+    </section>
+  ))
+}
+
+<section class="content-section">
+  <h2>Contact</h2>
+  <p>Questions about this page can currently be submitted through the <a href={withBase("/contact")}>contact page</a>.</p>
+</section>

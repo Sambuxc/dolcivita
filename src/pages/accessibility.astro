@@ -1,0 +1,15 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+import PolicyPlaceholder from "../components/sections/PolicyPlaceholder.astro";
+
+const sections = [
+  { heading: "Our commitment", body: ["Dolci Vita aims to provide a website that can be used by as many people as possible, across devices and assistive technologies."] },
+  { heading: "Using the website", body: ["The site supports keyboard navigation, visible focus styles, responsive layouts and reduced-motion preferences. Further testing and remediation are planned before launch."] },
+  { heading: "Known limitations", body: ["Any confirmed accessibility limitations, workarounds and remediation dates will be listed here after the final audit."] },
+  { heading: "Feedback", body: ["If you encounter an accessibility problem, please contact Dolci Vita with the page and issue so the team can investigate."] },
+];
+---
+
+<ContentPageLayout title="Accessibility Statement" description="Our approach to making the Dolci Vita website accessible." eyebrow="Accessibility">
+  <PolicyPlaceholder sections={sections} />
+</ContentPageLayout>
