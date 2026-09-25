@@ -1,0 +1,114 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+---
+
+<ContentPageLayout
+  title="Contact Dolci Vita"
+  description="Ask a question, plan your visit or get in touch with the Dolci Vita team."
+  eyebrow="We’d love to hear from you"
+>
+  <div class="contact-grid">
+    <section class="content-section">
+      <h2>Visit or call</h2>
+      <address>
+        185 Gatley Road<br />
+        Gatley, Cheadle<br />
+        SK8 4BB
+      </address>
+      <p><a href="tel:+441615247190">0161 524 7190</a></p>
+      <p class="placeholder-note">A verified public email address and shop-front photograph will be added when supplied.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Send a message</h2>
+      <form class="contact-form" data-placeholder-form>
+        <label for="name">Name</label>
+        <input id="name" name="name" autocomplete="name" required />
+
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <button type="submit">Send message</button>
+        <p class="form-status" data-form-status aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+</ContentPageLayout>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-placeholder-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>("[data-form-status]");
+      if (status) status.textContent = "The contact form is awaiting its delivery service. Please call us in the meantime.";
+    });
+  });
+</script>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: clamp(36px, 7vw, 80px);
+  }
+
+  address {
+    color: var(--body-muted);
+    font-size: 17px;
+    font-style: normal;
+    line-height: 1.8;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 9px;
+  }
+
+  label {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #cfc7b3;
+    border-radius: 9px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    width: fit-content;
+    margin-top: 12px;
+    padding: 14px 24px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .form-status {
+    min-height: 1.5em;
+    margin: 4px 0 0;
+  }
+
+  @media (max-width: 680px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

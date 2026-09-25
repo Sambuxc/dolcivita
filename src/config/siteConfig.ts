@@ -20,8 +20,29 @@ export const siteConfig: SiteConfig = {
       { label: 'Menu', href: '#menu' },
       { label: 'Story', href: '#story' },
       { label: 'Gallery', href: '#gallery' },
+      { label: 'Download app', href: '/download-app' },
+      { label: 'Contact', href: '/contact' },
     ],
     cta: { label: 'Order now', href: 'tel:01612101558', variant: 'primary' },
+  },
+
+  appBanner: {
+    reviews: {
+      label: 'Google reviews',
+      href: 'https://maps.app.goo.gl/9HUy7Yj9aFfApdoY9',
+      // Add verified values here, or populate them from a server-side Places API
+      // integration. Never guess or silently allow a rating to become stale.
+      rating: 4.9,
+      reviewCount: 945,
+    },
+    android: {
+      label: 'Google Play',
+      href: 'https://play.google.com/store/apps/details?id=com.aexir.dolcivita&pcampaignid=web_share',
+    },
+    ios: {
+      label: 'App Store',
+      href: 'https://apps.apple.com/gb/app/dolci-vita/id6752034610',
+    },
   },
 
   appBanner: {
@@ -191,10 +212,24 @@ export const siteConfig: SiteConfig = {
       {
         title: 'Explore',
         links: [
-          { label: 'Menu', href: '#menu' },
-          { label: 'Our story', href: '#story' },
-          { label: 'Gallery', href: '#gallery' },
+          { label: 'Menu', href: '/#menu' },
+          { label: 'Our story', href: '/#story' },
+          { label: 'Gallery', href: '/#gallery' },
           { label: 'Full menu', href: '/menu' },
+          { label: 'Download app', href: '/download-app' },
+          { label: 'Contact', href: '/contact' },
+          { label: 'FAQs', href: '/faqs' },
+          { label: 'Work with us', href: '/work-with-us' },
+        ],
+      },
+      {
+        title: 'Information',
+        links: [
+          { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+          { label: 'Privacy Policy', href: '/privacy-policy' },
+          { label: 'Cookie Policy', href: '/cookie-policy' },
+          { label: 'Accessibility', href: '/accessibility' },
+          { label: 'Cookie Settings', href: '/cookie-settings' },
         ],
       },
       {

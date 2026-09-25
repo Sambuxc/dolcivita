@@ -1,0 +1,49 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+
+const faqs = [
+  ["Where is Dolci Vita?", "You can find us at 185 Gatley Road, Gatley, Cheadle, SK8 4BB."],
+  ["Do you offer collection and delivery?", "Yes. Final online ordering links and service-area details will be added with the Flipdish integration."],
+  ["Do you cater for dietary requirements?", "Please speak to the team before ordering. Final allergen and dietary guidance is awaiting client approval."],
+  ["Can I order through the Dolci Vita app?", "Yes. Use the Download App page to find the official Android and iOS listings."],
+  ["What are your opening hours?", "Current hours are shown on the homepage. Please confirm them before making a special journey."],
+];
+---
+
+<ContentPageLayout
+  title="Frequently asked questions"
+  description="Quick answers about visiting, ordering and enjoying Dolci Vita."
+  eyebrow="Helpful information"
+>
+  <section class="content-section faq-list">
+    {faqs.map(([question, answer]) => (
+      <details>
+        <summary>{question}</summary>
+        <p>{answer}</p>
+      </details>
+    ))}
+  </section>
+  <p class="placeholder-note">These initial answers should be replaced or approved by Dolci Vita before launch.</p>
+</ContentPageLayout>
+
+<style>
+  .faq-list {
+    border-top: 1px solid #ded6c2;
+  }
+
+  details {
+    border-bottom: 1px solid #ded6c2;
+  }
+
+  summary {
+    padding: 22px 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  details p {
+    margin: -4px 0 24px;
+    padding-right: 30px;
+  }
+</style>

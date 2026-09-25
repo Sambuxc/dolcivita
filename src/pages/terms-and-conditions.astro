@@ -1,0 +1,15 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+import PolicyPlaceholder from "../components/sections/PolicyPlaceholder.astro";
+
+const sections = [
+  { heading: "Using this website", body: ["These terms will explain the rules that apply when using the Dolci Vita website, menu and ordering links."] },
+  { heading: "Products and orders", body: ["Final wording will explain product information, pricing, availability, payment, collection, delivery and cancellation arrangements."] },
+  { heading: "Allergens and product information", body: ["Customers should contact Dolci Vita directly about allergies before ordering. Approved allergen wording will be added here."] },
+  { heading: "Liability and changes", body: ["Client-approved provisions covering service availability, website changes and applicable liability will be inserted before launch."] },
+];
+---
+
+<ContentPageLayout title="Terms & Conditions" description="Terms governing use of the Dolci Vita website and services." eyebrow="Supporting information">
+  <PolicyPlaceholder sections={sections} />
+</ContentPageLayout>

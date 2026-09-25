@@ -1,0 +1,15 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+import PolicyPlaceholder from "../components/sections/PolicyPlaceholder.astro";
+
+const sections = [
+  { heading: "Information we collect", body: ["The final notice will identify the information collected through contact, ordering, app, analytics and recruitment journeys."] },
+  { heading: "How information is used", body: ["Client-approved purposes, lawful bases and sharing arrangements will be documented here."] },
+  { heading: "Retention and security", body: ["The final policy will state retention periods and the safeguards used by Dolci Vita and its service providers."] },
+  { heading: "Your rights", body: ["The approved notice will explain applicable data-protection rights and how to exercise them."] },
+];
+---
+
+<ContentPageLayout title="Privacy Policy" description="How Dolci Vita handles personal information." eyebrow="Privacy">
+  <PolicyPlaceholder sections={sections} />
+</ContentPageLayout>

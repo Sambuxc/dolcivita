@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
 import AppBanner from '../components/sections/AppBanner.astro';
+import ScrollOrderButton from '../components/sections/ScrollOrderButton.astro';
 import WhatWeOffer from '../components/sections/WhatWeOffer.astro';
 import Featured from '../components/sections/Featured.astro';
 import Story from '../components/sections/Story.astro';
@@ -40,6 +41,7 @@ const [meta, nav, appBanner, hero, offer, featured, story, why, gallery, locatio
 <Layout title={meta.title} description={meta.description}>
   <AppBanner content={appBanner} />
   <Hero meta={meta} nav={nav} hero={hero} />
+  <ScrollOrderButton cta={nav.cta} />
   <main id="main" class="page">
     <WhatWeOffer offer={offer} />
     <Featured featured={featured} />

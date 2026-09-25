@@ -1,0 +1,64 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+import { withBase } from "../utils/paths";
+---
+
+<ContentPageLayout
+  title="Work with us"
+  description="Join the team bringing handcrafted desserts and warm hospitality to Gatley."
+  eyebrow="Careers"
+>
+  <section class="content-section split">
+    <div class="team-placeholder" role="img" aria-label="Dolci Vita team photograph coming soon">
+      Team photograph coming soon
+    </div>
+    <div>
+      <h2>Make something memorable</h2>
+      <p>We are always interested in meeting friendly, reliable people who care about quality, service and creating a brilliant customer experience.</p>
+      <p>This page is ready for Dolci Vita’s approved recruitment copy, current opportunities and application instructions.</p>
+      <a class="cta" href={withBase("/contact")}>Register your interest</a>
+    </div>
+  </section>
+  <p class="placeholder-note">Please confirm the recruitment email address, approved role information and team photograph before launch.</p>
+</ContentPageLayout>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(30px, 6vw, 70px);
+    align-items: center;
+  }
+
+  .team-placeholder {
+    min-height: 420px;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    background: var(--parchment);
+    color: var(--body-faint);
+    text-align: center;
+  }
+
+  .cta {
+    margin-top: 10px;
+    padding: 14px 22px;
+    display: inline-flex;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media (max-width: 680px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+
+    .team-placeholder {
+      min-height: 280px;
+    }
+  }
+</style>

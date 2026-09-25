@@ -1,0 +1,14 @@
+---
+import ContentPageLayout from "../layouts/ContentPageLayout.astro";
+import PolicyPlaceholder from "../components/sections/PolicyPlaceholder.astro";
+
+const sections = [
+  { heading: "What cookies are", body: ["Cookies and similar storage technologies can remember settings and help website services operate."] },
+  { heading: "Cookies used by this site", body: ["The final inventory will document essential storage and any approved analytics, maps, reviews, ordering or marketing technologies."] },
+  { heading: "Managing your choices", body: ["Use Cookie Settings to review available choices. Browser controls can also remove or block stored data."] },
+];
+---
+
+<ContentPageLayout title="Cookie Policy" description="Information about cookies and similar technologies used by Dolci Vita." eyebrow="Privacy">
+  <PolicyPlaceholder sections={sections} />
+</ContentPageLayout>
