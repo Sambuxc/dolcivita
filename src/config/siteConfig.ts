@@ -32,8 +32,8 @@ export const siteConfig: SiteConfig = {
       href: 'https://maps.app.goo.gl/9HUy7Yj9aFfApdoY9',
       // Add verified values here, or populate them from a server-side Places API
       // integration. Never guess or silently allow a rating to become stale.
-      rating: null,
-      reviewCount: null,
+      rating: 4.9,
+      reviewCount: 945,
     },
     android: {
       label: 'Google Play',
