@@ -10,8 +10,8 @@ export const siteConfig: SiteConfig = {
     description: 'Small-batch Basque cheesecakes, kunafa and loaded shakes in Manchester.',
     logo: '/assets/logo-gold.png',
     logoAlt: 'Dolci Vita - The Sweet Life',
-    phone: '+44 1615247190',
-    phoneHref: 'tel:+441615247190',
+    phone: '01612101558',
+    phoneHref: 'tel:01612101558',
   },
 
   nav: {
@@ -23,7 +23,26 @@ export const siteConfig: SiteConfig = {
       { label: 'Download app', href: '/download-app' },
       { label: 'Contact', href: '/contact' },
     ],
-    cta: { label: 'Order now', href: 'tel:+441615247190', variant: 'primary' },
+    cta: { label: 'Order now', href: 'tel:01612101558', variant: 'primary' },
+  },
+
+  appBanner: {
+    reviews: {
+      label: 'Google reviews',
+      href: 'https://maps.app.goo.gl/9HUy7Yj9aFfApdoY9',
+      // Add verified values here, or populate them from a server-side Places API
+      // integration. Never guess or silently allow a rating to become stale.
+      rating: 4.9,
+      reviewCount: 945,
+    },
+    android: {
+      label: 'Google Play',
+      href: 'https://play.google.com/store/apps/details?id=com.aexir.dolcivita&pcampaignid=web_share',
+    },
+    ios: {
+      label: 'App Store',
+      href: 'https://apps.apple.com/gb/app/dolci-vita/id6752034610',
+    },
   },
 
   appBanner: {
