@@ -23,6 +23,23 @@ export interface NavConfig {
   cta: CTAButton;
 }
 
+export interface AppBannerContent {
+  reviews: {
+    label: string;
+    href: string;
+    rating: number | null;
+    reviewCount: number | null;
+  };
+  android: {
+    label: string;
+    href: string;
+  };
+  ios: {
+    label: string;
+    href: string;
+  };
+}
+
 export interface SlideVideo {
   kind: 'video';
   webm: string;
@@ -171,6 +188,7 @@ export interface MenuPageContent {
 export interface SiteConfig {
   meta: SiteMeta;
   nav: NavConfig;
+  appBanner: AppBannerContent;
   hero: HeroContent;
   offer: OfferContent;
   featured: FeaturedContent;

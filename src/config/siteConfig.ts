@@ -24,6 +24,25 @@ export const siteConfig: SiteConfig = {
     cta: { label: 'Order now', href: 'tel:+441615247190', variant: 'primary' },
   },
 
+  appBanner: {
+    reviews: {
+      label: 'Google reviews',
+      href: 'https://maps.app.goo.gl/9HUy7Yj9aFfApdoY9',
+      // Add verified values here, or populate them from a server-side Places API
+      // integration. Never guess or silently allow a rating to become stale.
+      rating: null,
+      reviewCount: null,
+    },
+    android: {
+      label: 'Google Play',
+      href: 'https://play.google.com/store/apps/details?id=com.aexir.dolcivita&pcampaignid=web_share',
+    },
+    ios: {
+      label: 'App Store',
+      href: 'https://apps.apple.com/gb/app/dolci-vita/id6752034610',
+    },
+  },
+
   hero: {
     eyebrow: 'The Sweet Life · Manchester',
     titleLead: 'Dessert worth',

@@ -3,6 +3,7 @@ import type {
   SiteConfig,
   SiteMeta,
   NavConfig,
+  AppBannerContent,
   HeroContent,
   OfferContent,
   FeaturedContent,
@@ -34,6 +35,10 @@ export async function getSiteMeta(): Promise<SiteMeta> {
 
 export async function getNavConfig(): Promise<NavConfig> {
   return resolve(siteConfig.nav);
+}
+
+export async function getAppBannerContent(): Promise<AppBannerContent> {
+  return resolve(siteConfig.appBanner);
 }
 
 export async function getHeroContent(): Promise<HeroContent> {
