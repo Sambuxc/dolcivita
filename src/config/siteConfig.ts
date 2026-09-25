@@ -10,8 +10,8 @@ export const siteConfig: SiteConfig = {
     description: 'Small-batch Basque cheesecakes, kunafa and loaded shakes in Manchester.',
     logo: '/assets/logo-gold.png',
     logoAlt: 'Dolci Vita - The Sweet Life',
-    phone: '+44 1615247190',
-    phoneHref: 'tel:+441615247190',
+    phone: '01612101558',
+    phoneHref: 'tel:01612101558',
   },
 
   nav: {
@@ -21,7 +21,7 @@ export const siteConfig: SiteConfig = {
       { label: 'Story', href: '#story' },
       { label: 'Gallery', href: '#gallery' },
     ],
-    cta: { label: 'Order now', href: 'tel:+441615247190', variant: 'primary' },
+    cta: { label: 'Order now', href: 'tel:01612101558', variant: 'primary' },
   },
 
   appBanner: {
