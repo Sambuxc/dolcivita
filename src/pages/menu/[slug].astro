@@ -1,0 +1,260 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import MenuNav from "../../components/sections/MenuNav.astro";
+import Footer from "../../components/sections/Footer.astro";
+import Pill from "../../components/ui/Pill.astro";
+import {
+  getFooterContent,
+  getMenuPageContent,
+  getNavConfig,
+  getSiteMeta,
+} from "../../services/api";
+import type { MenuItem } from "../../services/types";
+import { productSlug } from "../../utils/productSlug";
+import { withBase } from "../../utils/paths";
+
+export async function getStaticPaths() {
+  const menu = await getMenuPageContent();
+  const paths = menu.items.map((item) => ({
+    params: { slug: productSlug(item) },
+    props: { item },
+  }));
+  const slugs = paths.map(({ params }) => params.slug);
+
+  if (new Set(slugs).size !== slugs.length) {
+    throw new Error("Menu item names must generate unique product slugs.");
+  }
+
+  return paths;
+}
+
+interface Props {
+  item: MenuItem;
+}
+
+const { item } = Astro.props;
+const [meta, nav, footer] = await Promise.all([
+  getSiteMeta(),
+  getNavConfig(),
+  getFooterContent(),
+]);
+---
+
+<Layout
+  title={`${item.name} — Dolci Vita`}
+  description={`${item.desc} ${item.price}. Discover ${item.name} from Dolci Vita in Manchester.`}
+>
+  <div class="product-page">
+    <MenuNav
+      logo={meta.logo}
+      logoAlt={meta.logoAlt}
+      backHref="/menu"
+      backLabel="Back to menu"
+      cta={nav.cta}
+    />
+
+    <main id="main">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={withBase("/")}>Home</a>
+        <span aria-hidden="true">/</span>
+        <a href={withBase("/menu")}>Menu</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{item.name}</span>
+      </nav>
+
+      <article class="product">
+        <div class="media">
+          {item.img ? (
+            <img src={withBase(item.img)} alt={item.alt} />
+          ) : (
+            <div
+              class="image-placeholder"
+              role="img"
+              aria-label={`Product photograph of ${item.name} coming soon`}
+            >
+              Product photograph coming soon
+            </div>
+          )}
+        </div>
+
+        <div class="details">
+          <p class="category">{item.cat}</p>
+          <h1>{item.name}</h1>
+          <div class="summary">
+            <span class="price">{item.price}</span>
+            {item.badge && <Pill text={item.badge} variant="badge" />}
+          </div>
+          <p class="description">{item.desc}</p>
+
+          <div class="tags" aria-label="Product labels">
+            {item.diet.map((label) => <Pill text={label} variant="diet" />)}
+          </div>
+
+          <section class="allergen-note" aria-labelledby="allergen-heading">
+            <h2 id="allergen-heading">Dietary and allergen information</h2>
+            <p>
+              Product-specific allergen information is being confirmed. Please
+              speak to the team before ordering if you have an allergy or
+              dietary requirement.
+            </p>
+          </section>
+
+          <div class="actions">
+            <a class="order" href={meta.phoneHref}>Call to order</a>
+            <a class="back" href={withBase("/menu")}>View full menu</a>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <Footer footer={footer} compact />
+  </div>
+</Layout>
+
+<style>
+  .product-page {
+    min-height: 100vh;
+    background: var(--cream);
+  }
+
+  main {
+    width: min(100% - 40px, 1180px);
+    margin-inline: auto;
+    padding-block: clamp(28px, 5vw, 56px) clamp(72px, 10vw, 120px);
+  }
+
+  .breadcrumbs {
+    margin-bottom: clamp(28px, 5vw, 52px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: var(--body-faint);
+    font-size: 13px;
+  }
+
+  .breadcrumbs a {
+    color: var(--body-muted);
+  }
+
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+    gap: clamp(38px, 7vw, 88px);
+    align-items: center;
+  }
+
+  .media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--parchment);
+    box-shadow: 0 28px 60px -30px rgba(42, 39, 30, 0.45);
+  }
+
+  .media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .image-placeholder {
+    width: 100%;
+    height: 100%;
+    padding: 28px;
+    display: grid;
+    place-items: center;
+    color: var(--body-faint);
+    text-align: center;
+  }
+
+  .category {
+    margin: 0 0 12px;
+    color: var(--gold-deep);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0 0 18px;
+    font-family: "Cormorant", serif;
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 600;
+    line-height: 0.98;
+  }
+
+  .summary,
+  .tags,
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .price {
+    color: var(--gold-deep);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .description {
+    margin-block: 22px 18px;
+    color: var(--body-muted);
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  .allergen-note {
+    margin-block: 30px;
+    padding: 20px;
+    border-radius: 14px;
+    background: var(--parchment);
+  }
+
+  .allergen-note h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+  }
+
+  .allergen-note p {
+    margin: 0;
+    color: var(--body-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .order,
+  .back {
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .order {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .back {
+    border: 1px solid var(--ink);
+    color: var(--ink);
+  }
+
+  .order:focus-visible,
+  .back:focus-visible,
+  .breadcrumbs a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 760px) {
+    .product {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

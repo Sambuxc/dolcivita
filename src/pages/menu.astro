@@ -11,8 +11,6 @@ import {
   getMenuPageContent,
   getFooterContent,
 } from "../services/api";
-import { withBase } from "../utils/paths";
-
 const [meta, nav, menu, footer] = await Promise.all([
   getSiteMeta(),
   getNavConfig(),
